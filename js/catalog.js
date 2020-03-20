@@ -49,7 +49,44 @@ function updateCounter() {}
 // TODO: As you add items into the cart, show them (item & quantity) in the cart preview div
 function updateCartPreview() {
   // TODO: Get the item and quantity from the form
+  var tableRowEL = document.createElement('tr');
+  var tableDataEl = document.createElement('td');
+  var tableDataImgEl = document.createElement('img');
+  var tableDataEl2 = document.createElement('td');
+
+  function writeTable(){
+    
+    for (var i=0; i<Product.allProducts.length; i++){
+      if (document.getElementById('items').value === Product.allProducts[i].name){
+        tableDataImgEl.src = Product.allProducts[i].filePath;
+        tableDataImgEl.style = "width: 100px; display: block;";
+        tableDataEl2.textContent = Product.allProducts[i].name;
+      }
+    }
+
+    var tableDataEl3 = document.createElement('td');
+    tableDataEl3.textContent = document.getElementById('quantity').value;
+    tableDataEl.appendChild(tableDataImgEl);
+    tableRowEL.appendChild(tableDataEl);
+    tableRowEL.appendChild(tableDataEl2);
+    tableRowEL.appendChild(tableDataEl3);
+
+  }
   // TODO: Add a new element to the cartContents div with that information
+  var cartEl = document.getElementById('cartContents');
+  if (!cartEl.firstChild) {
+    var tableEl = document.createElement('table');
+    tableEl.id = 'table';
+    writeTable();
+    tableEl.appendChild(tableRowEL);
+    cartEl.appendChild(tableEl);
+
+  } else {
+    var newTableEl = document.getElementById('table');
+    writeTable();
+    newTableEl.appendChild(tableRowEL);
+  }
+
 }
 
 // Set up the "submit" event listener on the form.
@@ -61,3 +98,4 @@ catalogForm.addEventListener('submit', handleSubmit);
 // Before anything else of value can happen, we need to fill in the select
 // drop down list in the form.
 populateForm();
+
